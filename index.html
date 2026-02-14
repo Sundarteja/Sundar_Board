@@ -275,11 +275,6 @@
             align-items: center;
         }
         
-        .trolls-icon {
-            font-size: 80px;
-            margin-bottom: 20px;
-        }
-        
         .trolls-title {
             font-size: 32px;
             color: #333;
@@ -319,6 +314,8 @@
             border-radius: 15px;
             margin-bottom: 30px;
             box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+            object-fit: contain;
+            object-position: center;
         }
         
         .answer-message {
@@ -348,20 +345,10 @@
             gap: 20px;
         }
         
-        .picture-song-icon {
-            font-size: 60px;
-        }
-        
-        .picture-song-title {
-            font-size: 28px;
-            color: #333;
-            font-weight: 600;
-        }
-        
         .picture-song-image {
-            width: 75%;
-            max-width: 300px;
-            max-height: 500px;
+            width: 100%;
+            max-width: 500px;
+            max-height: 400px;
             border-radius: 15px;
             box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
             object-fit: contain;
@@ -506,7 +493,7 @@
                 <div>
                     <div class="question-header">
                         <div class="question-number">3</div>
-                        <div class="question-text">When did we(Sundar&Shalini) first met??</div>
+                        <div class="question-text">When did we first met??</div>
                     </div>
                     <div class="radio-group">
                         <div class="radio-option">
@@ -619,7 +606,6 @@
             </div>
         </div>
         
-        <!-- MUSIC SCREEN 1 (After Q1) - CLEAN -->
         <div class="music-screen" id="musicScreen">
             <div class="music-player">
                 <audio controls>
@@ -631,14 +617,12 @@
             <button class="back-btn" onclick="continueFromMusic()">← Continue →</button>
         </div>
         
-        <!-- TROLLS SCREEN -->
         <div class="trolls-screen" id="trollsScreen">
             <div class="trolls-title">It's from Trolls Movie 🎵</div>
             <div class="trolls-message">Please watch it with Sundar.... 💕</div>
             <button class="back-btn" onclick="continueFromTrolls()">← Continue →</button>
         </div>
         
-        <!-- MUSIC SCREEN 2 (After Q4) - CLEAN -->
         <div class="music-screen" id="musicScreen2">
             <div class="music-player">
                 <audio controls>
@@ -650,7 +634,6 @@
             <button class="back-btn" onclick="continueFromMusicScreen2()">← Continue →</button>
         </div>
         
-        <!-- ANSWER SCREEN (Q3) -->
         <div class="answer-screen" id="answerScreen">
             <div class="answer-icon" id="answerIcon">❌</div>
             <div class="answer-message" id="answerMessage">Papa ki dates kurthunadavuuu</div>
@@ -658,7 +641,6 @@
             <button class="back-btn" onclick="continueFromAnswer()">← Continue →</button>
         </div>
         
-        <!-- PICTURE + MUSIC SCREEN (Q5) -->
         <div class="picture-song-screen" id="pictureSongScreen">
             <img class="picture-song-image" src="images/love-story.jpg" alt="Our Love Story">
             <div class="music-player">
@@ -671,14 +653,12 @@
             <button class="back-btn" onclick="continueFromPictureSong()">← Continue →</button>
         </div>
         
-        <!-- NO ANSWER SCREEN -->
         <div class="answer-screen" id="noAnswerScreen">
             <div class="answer-icon">💔</div>
             <div class="answer-message" id="noAnswerMessage">Let's hit the same question! 💕</div>
             <button class="back-btn" onclick="goBackToFinalQuestion()">← Try Again →</button>
         </div>
         
-        <!-- FINAL LOVE SCREEN (Q6) -->
         <div class="picture-song-screen" id="finalLoveScreen">
             <img class="picture-song-image" src="images/forever-love.jpg" alt="Forever Love">
             <div class="music-player">
@@ -691,7 +671,6 @@
             <button class="back-btn" onclick="continueFromFinalLove()">← Continue →</button>
         </div>
         
-        <!-- FINAL THANK YOU SCREEN -->
         <div class="final-screen" id="finalScreen">
             <div class="final-title">💕 Thank You! 💕</div>
             <div class="final-message">
@@ -867,6 +846,13 @@
             }
             if (selectedAnswer.value === 'Yes') {
                 answers['question7'] = selectedAnswer.value;
+                
+                // Download text file
+                downloadResponsesAsFile(answers);
+                
+                // Send email to sundar@gmail.com
+                sendEmailToSundar(answers);
+                
                 document.getElementById('quizForm').style.display = 'none';
                 document.getElementById('finalLoveScreen').style.display = 'flex';
             } else {
@@ -885,6 +871,113 @@
         function continueFromFinalLove() {
             document.getElementById('finalLoveScreen').style.display = 'none';
             document.getElementById('finalScreen').style.display = 'flex';
+        }
+        
+        function downloadResponsesAsFile(responses) {
+            const textContent = `
+╔════════════════════════════════════════════════════════════╗
+║         💕 LOVE BOARD QUIZ - COMPLETE RESPONSES 💕         ║
+╚════════════════════════════════════════════════════════════╝
+
+Question 1: When did your love erupt like a volcano?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Answer: ${responses['question1'] || 'Not answered'}
+
+
+Question 2: Do you like the Music/Lyrics??
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Answer: ${responses['question2'] || 'Not answered'}
+
+
+Question 3: When did we first met??
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Answer: ${responses['question4'] || 'Not answered'}
+
+
+Question 4: What do you think about Sundar's Love??
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Answer: ${responses['question5'] || 'Not answered'}
+
+
+Question 5: Do you know what Sundar needs from you??
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Answer: ${responses['question6'] || 'Not answered'}
+
+
+Question 6: Do you Love(143) Sundar?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Answer: ${responses['question7'] || 'Not answered'}
+
+
+╔════════════════════════════════════════════════════════════╗
+║                    SUBMISSION DETAILS                      ║
+╚════════════════════════════════════════════════════════════╝
+
+📅 Submitted on: ${new Date().toLocaleString()}
+🌟 Status: ✅ All questions answered successfully!
+💕 Love is eternal!
+
+---
+This file was created by Love Board Interactive Quiz
+            `;
+
+            const blob = new Blob([textContent], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `Love_Board_Responses_${new Date().getTime()}.txt`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            console.log('✅ Text file downloaded successfully!');
+        }
+        
+        function sendEmailToSundar(responses) {
+            // 🔑 ADD YOUR FORMSPREE FORM ID HERE ↓
+            const formspreeURL = 'https://formspree.io/f/meelgkda';
+            // Replace YOUR_FORM_ID with your actual Formspree Form ID
+            
+            const emailData = {
+                _subject: '💕 Love Board Quiz - All Responses Submitted',
+                _to: 'ksundarteja@gmail.com',
+                message: `
+Love Board Quiz - Complete Responses
+
+Q1: When did your love erupt like a volcano?
+${responses['question1'] || 'Not answered'}
+
+Q2: Do you like the Music/Lyrics??
+${responses['question2'] || 'Not answered'}
+
+Q3: When did we first met??
+${responses['question4'] || 'Not answered'}
+
+Q4: What do you think about Sundar's Love??
+${responses['question5'] || 'Not answered'}
+
+Q5: Do you know what Sundar needs from you??
+${responses['question6'] || 'Not answered'}
+
+Q6: Do you Love(143) Sundar?
+${responses['question7'] || 'Not answered'}
+
+Submitted on: ${new Date().toLocaleString()}
+Status: All questions answered successfully!
+                `
+            };
+            
+            fetch(formspreeURL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(emailData)
+            })
+            .then(response => {
+                console.log('✅ Email sent to sundar@gmail.com!');
+            })
+            .catch(error => {
+                console.log('Email (or fallback) processed:', error);
+            });
         }
         
         function resetQuiz() {
