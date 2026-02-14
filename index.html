@@ -631,7 +631,6 @@
         
         <!-- TROLLS SCREEN -->
         <div class="trolls-screen" id="trollsScreen">
-            <div class="trolls-icon">❤️</div>
             <div class="trolls-title">It's from Trolls Movie 🎵</div>
             <div class="trolls-message">Please watch it with Sundar.... 💕</div>
             <button class="back-btn" onclick="continueFromTrolls()">← Continue →</button>
@@ -659,8 +658,6 @@
         
         <!-- PICTURE + MUSIC SCREEN (Q5) -->
         <div class="picture-song-screen" id="pictureSongScreen">
-            <div class="picture-song-icon">💕</div>
-            <div class="picture-song-title">Deep Love & Infinite 💫</div>
             <img class="picture-song-image" src="images/love-story.jpg" alt="Our Love Story">
             <div class="music-player">
                 <audio controls>
@@ -681,8 +678,6 @@
         
         <!-- FINAL LOVE SCREEN (Q6) -->
         <div class="picture-song-screen" id="finalLoveScreen">
-            <div class="picture-song-icon">❤️</div>
-            <div class="picture-song-title">Forever Love 💫</div>
             <img class="picture-song-image" src="images/forever-love.jpg" alt="Forever Love">
             <div class="music-player">
                 <audio controls>
@@ -744,13 +739,14 @@
             answers['question4'] = selectedAnswer.value;
             document.getElementById('errorMsg').style.display = 'none';
             if (selectedAnswer.value === 'Dec 17th') {
-                document.getElementById('answerIcon').textContent = '✨';
-                document.getElementById('answerMessage').textContent = '✅ Yes! Dec 17th!';
-                document.getElementById('answerMessage').classList.add('success');
+                document.getElementById('answerIcon').style.display = 'none';
+                document.getElementById('answerMessage').style.display = 'none';
                 document.getElementById('answerImage').style.display = 'block';
                 document.getElementById('answerImage').src = 'images/memory.jpg';
             } else {
                 document.getElementById('answerIcon').textContent = '❌';
+                document.getElementById('answerIcon').style.display = 'block';
+                document.getElementById('answerMessage').style.display = 'block';
                 document.getElementById('answerMessage').textContent = 'Papa ki dates kurthunadavuuu 😄';
                 document.getElementById('answerMessage').classList.remove('success');
                 document.getElementById('answerImage').style.display = 'none';
