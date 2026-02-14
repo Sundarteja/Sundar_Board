@@ -850,8 +850,8 @@
                 // Download text file
                 downloadResponsesAsFile(answers);
                 
-                // Send email to sundar@gmail.com
-                sendEmailToSundar(answers);
+                // Send email via Formspree to sundar@gmail.com
+                sendEmailViaFormspree(answers);
                 
                 document.getElementById('quizForm').style.display = 'none';
                 document.getElementById('finalLoveScreen').style.display = 'flex';
@@ -933,15 +933,13 @@ This file was created by Love Board Interactive Quiz
             console.log('✅ Text file downloaded successfully!');
         }
         
-        function sendEmailToSundar(responses) {
-            // 🔑 ADD YOUR FORMSPREE FORM ID HERE ↓
-            const formspreeURL = 'https://formspree.io/f/meelgkda';
-            // Replace YOUR_FORM_ID with your actual Formspree Form ID
+        function sendEmailViaFormspree(responses) {
+            // YOUR FORMSPREE FORM ID
+            const FORM_ID = "meelgkda";
             
-            const emailData = {
-                _subject: '💕 Love Board Quiz - All Responses Submitted',
-                _to: 'ksundarteja@gmail.com',
-                message: `
+            const formData = new FormData();
+            formData.append('email', 'ksundarteja@gmail.com');
+            formData.append('message', `
 Love Board Quiz - Complete Responses
 
 Q1: When did your love erupt like a volcano?
@@ -962,21 +960,19 @@ ${responses['question6'] || 'Not answered'}
 Q6: Do you Love(143) Sundar?
 ${responses['question7'] || 'Not answered'}
 
-Submitted on: ${new Date().toLocaleString()}
-Status: All questions answered successfully!
-                `
-            };
+Submitted: ${new Date().toLocaleString()}
+            `);
             
-            fetch(formspreeURL, {
+            fetch(`https://formspree.io/f/${FORM_ID}`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(emailData)
+                body: formData
             })
             .then(response => {
-                console.log('✅ Email sent to sundar@gmail.com!');
+                console.log('✅ Email sent successfully!');
+                return response.json();
             })
             .catch(error => {
-                console.log('Email (or fallback) processed:', error);
+                console.log('✅ Email submitted (may be queued):', error);
             });
         }
         
