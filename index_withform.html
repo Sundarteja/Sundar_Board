@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Board - Complete Love Story</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .scoreboard {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .score-display {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .score-label {
+            font-size: 18px;
+            color: #666;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .score-value {
+            font-size: 42px;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background-color: #ecf0f1;
+            border-radius: 10px;
+            margin-top: 12px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.5s ease;
+        }
+        
+        .form-container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .question-header {
+            margin-bottom: 30px;
+        }
+        
+        .question-number {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+        
+        .question-text {
+            font-size: 23px;
+            font-weight: 600;
+            color: #333;
+            line-height: 1.4;
+        }
+        
+        .transition-message {
+            font-size: 28px;
+            font-weight: 700;
+            color: #667eea;
+            text-align: center;
+            line-height: 1.6;
+            margin: 60px 0;
+        }
+        
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+        
+        .radio-option {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border: 2px solid #ecf0f1;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .radio-option:hover {
+            border-color: #667eea;
+            background-color: #f8f9ff;
+        }
+        
+        .radio-option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 15px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+        
+        .radio-option label {
+            cursor: pointer;
+            font-size: 16px;
+            color: #555;
+            flex: 1;
+        }
+        
+        .radio-option input[type="radio"]:checked + label {
+            font-weight: 600;
+            color: #667eea;
+        }
+        
+        .form-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            justify-content: space-between;
+        }
+        
+        .btn {
+            padding: 14px 30px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-next {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            flex: 1;
+        }
+        
+        .btn-next:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-next:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+        }
+        
+        .btn-prev {
+            background: #95a5a6;
+            color: white;
+        }
+        
+        .btn-prev:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(149, 165, 166, 0.4);
+        }
+        
+        .btn-prev:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+        
+        .error-message {
+            color: #e74c3c;
+            font-size: 14px;
+            padding: 12px;
+            background-color: #fadbd8;
+            border-radius: 6px;
+            display: none;
+            margin-bottom: 15px;
+        }
+        
+        .music-screen {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            display: none;
+            min-height: 250px;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 25px;
+        }
+        
+        .music-player {
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        audio {
+            width: 100%;
+            height: 50px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .music-message {
+            font-size: 18px;
+            color: #666;
+            font-style: italic;
+        }
+        
+        .back-btn {
+            padding: 14px 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .back-btn:hover {
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .trolls-screen {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            display: none;
+            min-height: 400px;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .trolls-title {
+            font-size: 32px;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .trolls-message {
+            font-size: 20px;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .answer-screen {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            display: none;
+            min-height: 500px;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .answer-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+        
+        .answer-image {
+            width: 100%;
+            max-width: 500px;
+            max-height: 400px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+            object-fit: contain;
+            object-position: center;
+        }
+        
+        .answer-message {
+            font-size: 24px;
+            color: #e74c3c;
+            margin-bottom: 30px;
+            font-weight: 700;
+            line-height: 1.6;
+        }
+        
+        .answer-message.success {
+            color: #27ae60;
+        }
+        
+        .picture-song-screen {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            display: none;
+            min-height: 700px;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow-y: auto;
+            gap: 20px;
+        }
+        
+        .picture-song-image {
+            width: 100%;
+            max-width: 500px;
+            max-height: 400px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+            object-fit: contain;
+            object-position: center;
+        }
+        
+        .final-screen {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            display: none;
+            min-height: 500px;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .final-title {
+            font-size: 36px;
+            color: #667eea;
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+        
+        .final-message {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .reset-btn {
+            padding: 14px 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .reset-btn:hover {
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .question-container {
+            display: none;
+        }
+        
+        .question-container.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="scoreboard">
+            <div class="score-display">
+                <span class="score-label">Love Board</span>
+                <div class="score-value" id="currentQuestion">1/6</div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 16.67%;"></div>
+            </div>
+        </div>
+        
+        <div class="form-container" id="quizForm">
+            <div id="errorMsg" class="error-message">Please select an answer</div>
+            
+            <div class="question-container active" id="question-1">
+                <div>
+                    <div class="question-header">
+                        <div class="question-number">1</div>
+                        <div class="question-text">When did your love erupt like a volcano?</div>
+                    </div>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="q1_nov" name="question1" value="Nov">
+                            <label for="q1_nov">Nov</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="q1_dec" name="question1" value="Dec">
+                            <label for="q1_dec">Dec</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="q1_jan" name="question1" value="Jan">
+                            <label for="q1_jan">Jan</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="q1_dayone" name="question1" value="From Day One">
+                            <label for="q1_dayone">From Day One</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-buttons">
+                    <button type="button" class="btn btn-next" onclick="submitQuestion1()">Submit ✓</button>
+                </div>
+            </div>
+            
+            <div class="question-container" id="question-2">
+                <div>
+                    <div class="question-header">
+                        <div class="question-number">2</div>
+                        <div class="question-text">Do you like the Music/Lyrics??</div>
+                    </div>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="q2_yes" name="question2" value="Yes">
+                            <label for="q2_yes">Yes</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="q2_no" name="question2" value="No">
+                            <label for="q2_no">No</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-buttons">
+                    <button type="button" class="btn btn-prev" onclick="previousQuestion()">← Previous</button>
+                    <button type="button" class="btn btn-next" onclick="submitQuestion2()">Submit ✓</button>
+                </div>
+            </div>
+            
+            <div class="question-container" id="question-3">
+                <div>
+                    <div class="transition-message">
+                        Be ready for next interesting part…. 🎉
+                    </div>
+                </div>
+                <div class="form-buttons">
+                    <button type="button" class="btn btn-prev" onclick="previousQuestion()">← Previous</button>
+                    <button type="button" class="btn btn-next" onclick="nextQuestion()">Next →</button>
+                </div>
+            </div>
+            
+            <div class="question-container" id="question-4">
+                <div>
+                    <div class="question-header">
+                        <div class="question-number">3</div>
+                        <div class="question-text">When did we first met??</div>
+                    </div>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="q4_dec16" name="question4" value="Dec 16th">
+                            <label for="q4_dec16">Dec 16th</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="q4_dec17" name="question4" value="Dec 17th">
+                            <label for="q4_dec17">Dec 17th</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="q4_dec18" name="question4" value="Dec 18th">
+                            <label for="q4_dec18">Dec 18th</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="q4_dreams" name="question4" value="In dreams">
+                            <label for="q4_dreams">In dreams</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-buttons">
+                    <button type="button" class="btn btn-prev" onclick="previousQuestion()">← Previous</button>
+                    <button type="button" class="btn btn-next" onclick="submitQuestion4()">Submit ✓</button>
+                </div>
+            </div>
+            
+            <div class="question-container" id="question-5">
+                <div>
+                    <div class="question-header">
+                        <div class="question-number">4</div>
+                        <div class="question-text">What do you think about Sundar's Love??</div>
+                    </div>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="q5_caring" name="question5" value="Caring">
+                            <label for="q5_caring">Caring</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="q5_protective" name="question5" value="Protective, Caring">
+                            <label for="q5_protective">Protective, Caring</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="q5_understanding" name="question5" value="Understanding, Protective, Caring">
+                            <label for="q5_understanding">Understanding, Protective, Caring</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="q5_doesnt" name="question5" value="Sundar doesn't understand">
+                            <label for="q5_doesnt">Sundar doesn't understand</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-buttons">
+                    <button type="button" class="btn btn-prev" onclick="previousQuestion()">← Previous</button>
+                    <button type="button" class="btn btn-next" onclick="submitQuestion5()">Submit ✓</button>
+                </div>
+            </div>
+            
+            <div class="question-container" id="question-6">
+                <div>
+                    <div class="question-header">
+                        <div class="question-number">5</div>
+                        <div class="question-text">Do you know what Sundar needs from you??</div>
+                    </div>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="q6_love1" name="question6" value="Deep Love^Infinite ❤️♾️">
+                            <label for="q6_love1">Deep Love^Infinite ❤️♾️</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="q6_love2" name="question6" value="Deep Love^Infinite ❤️♾️">
+                            <label for="q6_love2">Deep Love^Infinite ❤️♾️</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="q6_love3" name="question6" value="Deep Love^Infinite ❤️♾️">
+                            <label for="q6_love3">Deep Love^Infinite ❤️♾️</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="q6_love4" name="question6" value="Deep Love^Infinite ❤️♾️">
+                            <label for="q6_love4">Deep Love^Infinite ❤️♾️</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-buttons">
+                    <button type="button" class="btn btn-prev" onclick="previousQuestion()">← Previous</button>
+                    <button type="button" class="btn btn-next" onclick="submitQuestion6()">Submit ✓</button>
+                </div>
+            </div>
+            
+            <div class="question-container" id="question-7">
+                <div>
+                    <div class="question-header">
+                        <div class="question-number">6</div>
+                        <div class="question-text">Do you Love(143) Sundar?</div>
+                    </div>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="q7_yes" name="question7" value="Yes">
+                            <label for="q7_yes">Yes ❤️</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="q7_no" name="question7" value="No">
+                            <label for="q7_no">No</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-buttons">
+                    <button type="button" class="btn btn-prev" onclick="previousQuestion()">← Previous</button>
+                    <button type="button" class="btn btn-next" onclick="finishQuiz()">Submit ✓</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="music-screen" id="musicScreen">
+            <div class="music-player">
+                <audio controls>
+                    <source src="music/music1.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+            <div class="music-message">Enjoy the music 🎵</div>
+            <button class="back-btn" onclick="continueFromMusic()">← Continue →</button>
+        </div>
+        
+        <div class="trolls-screen" id="trollsScreen">
+            <div class="trolls-title">It's from Trolls Movie 🎵</div>
+            <div class="trolls-message">Please watch it with Sundar.... 💕</div>
+            <button class="back-btn" onclick="continueFromTrolls()">← Continue →</button>
+        </div>
+        
+        <div class="music-screen" id="musicScreen2">
+            <div class="music-player">
+                <audio controls>
+                    <source src="music/music2.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+            <div class="music-message">Enjoy the music 🎵</div>
+            <button class="back-btn" onclick="continueFromMusicScreen2()">← Continue →</button>
+        </div>
+        
+        <div class="answer-screen" id="answerScreen">
+            <div class="answer-icon" id="answerIcon">❌</div>
+            <div class="answer-message" id="answerMessage">Papa ki dates kurthunadavuuu</div>
+            <img id="answerImage" class="answer-image" style="display: none;" src="" alt="Memory">
+            <button class="back-btn" onclick="continueFromAnswer()">← Continue →</button>
+        </div>
+        
+        <div class="picture-song-screen" id="pictureSongScreen">
+            <img class="picture-song-image" src="images/love-story.jpg" alt="Our Love Story">
+            <div class="music-player">
+                <audio controls>
+                    <source src="music/music3.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+            <div class="music-message">Enjoy the music 🎵</div>
+            <button class="back-btn" onclick="continueFromPictureSong()">← Continue →</button>
+        </div>
+        
+        <div class="answer-screen" id="noAnswerScreen">
+            <div class="answer-icon">💔</div>
+            <div class="answer-message" id="noAnswerMessage">Let's hit the same question! 💕</div>
+            <button class="back-btn" onclick="goBackToFinalQuestion()">← Try Again →</button>
+        </div>
+        
+        <div class="picture-song-screen" id="finalLoveScreen">
+            <img class="picture-song-image" src="images/forever-love.jpg" alt="Forever Love">
+            <div class="music-player">
+                <audio controls>
+                    <source src="music/music4.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+            <div class="music-message">Enjoy the music 🎵</div>
+            <button class="back-btn" onclick="continueFromFinalLove()">← Continue →</button>
+        </div>
+        
+        <div class="final-screen" id="finalScreen">
+            <div class="final-title">💕 Thank You! 💕</div>
+            <div class="final-message">
+                Your answers have been recorded with love. <br>
+                This is a beautiful journey of two hearts! <br><br>
+                Thank you for sharing your love story! 🌟
+            </div>
+            <button class="reset-btn" onclick="resetQuiz()">Start Again</button>
+        </div>
+    </div>
+    
+    <script>
+        let currentQuestion = 1;
+        const totalQuestions = 6;
+        const answers = {};
+        
+        function submitQuestion1() {
+            const selectedAnswer = document.querySelector('input[name="question1"]:checked');
+            if (!selectedAnswer) {
+                document.getElementById('errorMsg').style.display = 'block';
+                return;
+            }
+            answers['question1'] = selectedAnswer.value;
+            document.getElementById('errorMsg').style.display = 'none';
+            document.getElementById('quizForm').style.display = 'none';
+            document.getElementById('musicScreen').style.display = 'flex';
+        }
+        
+        function submitQuestion2() {
+            const selectedAnswer = document.querySelector('input[name="question2"]:checked');
+            if (!selectedAnswer) {
+                document.getElementById('errorMsg').style.display = 'block';
+                return;
+            }
+            answers['question2'] = selectedAnswer.value;
+            document.getElementById('errorMsg').style.display = 'none';
+            document.getElementById('quizForm').style.display = 'none';
+            document.getElementById('trollsScreen').style.display = 'flex';
+        }
+        
+        function submitQuestion4() {
+            const selectedAnswer = document.querySelector('input[name="question4"]:checked');
+            if (!selectedAnswer) {
+                document.getElementById('errorMsg').style.display = 'block';
+                return;
+            }
+            answers['question4'] = selectedAnswer.value;
+            document.getElementById('errorMsg').style.display = 'none';
+            if (selectedAnswer.value === 'Dec 17th') {
+                document.getElementById('answerIcon').style.display = 'none';
+                document.getElementById('answerMessage').style.display = 'none';
+                document.getElementById('answerImage').style.display = 'block';
+                document.getElementById('answerImage').src = 'images/memory.jpg';
+            } else {
+                document.getElementById('answerIcon').textContent = '❌';
+                document.getElementById('answerIcon').style.display = 'block';
+                document.getElementById('answerMessage').style.display = 'block';
+                document.getElementById('answerMessage').textContent = 'Papa ki dates kurthunadavuuu 😄';
+                document.getElementById('answerMessage').classList.remove('success');
+                document.getElementById('answerImage').style.display = 'none';
+            }
+            document.getElementById('quizForm').style.display = 'none';
+            document.getElementById('answerScreen').style.display = 'flex';
+        }
+        
+        function continueFromAnswer() {
+            document.getElementById('answerScreen').style.display = 'none';
+            document.getElementById('quizForm').style.display = 'flex';
+            currentQuestion = 5;
+            showQuestion(currentQuestion);
+        }
+        
+        function submitQuestion5() {
+            const selectedAnswer = document.querySelector('input[name="question5"]:checked');
+            if (!selectedAnswer) {
+                document.getElementById('errorMsg').style.display = 'block';
+                return;
+            }
+            answers['question5'] = selectedAnswer.value;
+            document.getElementById('errorMsg').style.display = 'none';
+            document.getElementById('quizForm').style.display = 'none';
+            document.getElementById('musicScreen2').style.display = 'flex';
+        }
+        
+        function continueFromMusicScreen2() {
+            document.getElementById('musicScreen2').style.display = 'none';
+            document.getElementById('quizForm').style.display = 'flex';
+            currentQuestion = 6;
+            showQuestion(currentQuestion);
+        }
+        
+        function submitQuestion6() {
+            const selectedAnswer = document.querySelector('input[name="question6"]:checked');
+            if (!selectedAnswer) {
+                document.getElementById('errorMsg').style.display = 'block';
+                return;
+            }
+            answers['question6'] = selectedAnswer.value;
+            document.getElementById('errorMsg').style.display = 'none';
+            document.getElementById('quizForm').style.display = 'none';
+            document.getElementById('pictureSongScreen').style.display = 'flex';
+        }
+        
+        function continueFromPictureSong() {
+            document.getElementById('pictureSongScreen').style.display = 'none';
+            document.getElementById('quizForm').style.display = 'flex';
+            currentQuestion = 7;
+            showQuestion(currentQuestion);
+        }
+        
+        function continueFromMusic() {
+            document.getElementById('musicScreen').style.display = 'none';
+            document.getElementById('quizForm').style.display = 'flex';
+            currentQuestion = 2;
+            showQuestion(currentQuestion);
+        }
+        
+        function continueFromTrolls() {
+            document.getElementById('trollsScreen').style.display = 'none';
+            document.getElementById('quizForm').style.display = 'flex';
+            currentQuestion = 3;
+            showQuestion(currentQuestion);
+        }
+        
+        function showQuestion(questionNum) {
+            document.querySelectorAll('.question-container').forEach(el => {
+                el.classList.remove('active');
+            });
+            document.getElementById(`question-${questionNum}`).classList.add('active');
+            let displayNum = questionNum;
+            if (questionNum > 3) {
+                displayNum = questionNum - 1;
+            }
+            document.getElementById('currentQuestion').textContent = `${displayNum}/${totalQuestions}`;
+            document.getElementById('progressFill').style.width = (displayNum / totalQuestions * 100) + '%';
+            document.getElementById('errorMsg').style.display = 'none';
+            document.getElementById('musicScreen').style.display = 'none';
+            document.getElementById('musicScreen2').style.display = 'none';
+            document.getElementById('trollsScreen').style.display = 'none';
+            document.getElementById('answerScreen').style.display = 'none';
+            document.getElementById('pictureSongScreen').style.display = 'none';
+            document.getElementById('noAnswerScreen').style.display = 'none';
+            document.getElementById('finalLoveScreen').style.display = 'none';
+        }
+        
+        function nextQuestion() {
+            const selectedAnswer = document.querySelector(`input[name="question${currentQuestion}"]:checked`);
+            if (currentQuestion !== 3 && !selectedAnswer) {
+                document.getElementById('errorMsg').style.display = 'block';
+                return;
+            }
+            if (currentQuestion !== 3) {
+                answers[`question${currentQuestion}`] = selectedAnswer.value;
+            }
+            if (currentQuestion < totalQuestions) {
+                currentQuestion++;
+                showQuestion(currentQuestion);
+            }
+        }
+        
+        function previousQuestion() {
+            if (currentQuestion > 1) {
+                currentQuestion--;
+                showQuestion(currentQuestion);
+            }
+        }
+        
+        function finishQuiz() {
+            const selectedAnswer = document.querySelector(`input[name="question7"]:checked`);
+            if (!selectedAnswer) {
+                document.getElementById('errorMsg').style.display = 'block';
+                return;
+            }
+            if (selectedAnswer.value === 'Yes') {
+                answers['question7'] = selectedAnswer.value;
+                
+                // Download text file
+                downloadResponsesAsFile(answers);
+                
+                // Send email to sundar@gmail.com
+                sendEmailToSundar(answers);
+                
+                document.getElementById('quizForm').style.display = 'none';
+                document.getElementById('finalLoveScreen').style.display = 'flex';
+            } else {
+                document.getElementById('quizForm').style.display = 'none';
+                document.getElementById('noAnswerScreen').style.display = 'flex';
+            }
+        }
+        
+        function goBackToFinalQuestion() {
+            document.getElementById('noAnswerScreen').style.display = 'none';
+            document.getElementById('quizForm').style.display = 'flex';
+            document.querySelector('input[name="question7"]:checked').checked = false;
+            showQuestion(7);
+        }
+        
+        function continueFromFinalLove() {
+            document.getElementById('finalLoveScreen').style.display = 'none';
+            document.getElementById('finalScreen').style.display = 'flex';
+        }
+        
+        function downloadResponsesAsFile(responses) {
+            const textContent = `
+╔════════════════════════════════════════════════════════════╗
+║         💕 LOVE BOARD QUIZ - COMPLETE RESPONSES 💕         ║
+╚════════════════════════════════════════════════════════════╝
+
+Question 1: When did your love erupt like a volcano?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Answer: ${responses['question1'] || 'Not answered'}
+
+
+Question 2: Do you like the Music/Lyrics??
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Answer: ${responses['question2'] || 'Not answered'}
+
+
+Question 3: When did we first met??
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Answer: ${responses['question4'] || 'Not answered'}
+
+
+Question 4: What do you think about Sundar's Love??
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Answer: ${responses['question5'] || 'Not answered'}
+
+
+Question 5: Do you know what Sundar needs from you??
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Answer: ${responses['question6'] || 'Not answered'}
+
+
+Question 6: Do you Love(143) Sundar?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Answer: ${responses['question7'] || 'Not answered'}
+
+
+╔════════════════════════════════════════════════════════════╗
+║                    SUBMISSION DETAILS                      ║
+╚════════════════════════════════════════════════════════════╝
+
+📅 Submitted on: ${new Date().toLocaleString()}
+🌟 Status: ✅ All questions answered successfully!
+💕 Love is eternal!
+
+---
+This file was created by Love Board Interactive Quiz
+            `;
+
+            const blob = new Blob([textContent], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `Love_Board_Responses_${new Date().getTime()}.txt`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            console.log('✅ Text file downloaded successfully!');
+        }
+        
+        function sendEmailToSundar(responses) {
+            // 🔑 ADD YOUR FORMSPREE FORM ID HERE ↓
+            const formspreeURL = 'https://formspree.io/f/meelgkda';
+            // Replace YOUR_FORM_ID with your actual Formspree Form ID
+            
+            const emailData = {
+                _subject: '💕 Love Board Quiz - All Responses Submitted',
+                _to: 'ksundarteja@gmail.com',
+                message: `
+Love Board Quiz - Complete Responses
+
+Q1: When did your love erupt like a volcano?
+${responses['question1'] || 'Not answered'}
+
+Q2: Do you like the Music/Lyrics??
+${responses['question2'] || 'Not answered'}
+
+Q3: When did we first met??
+${responses['question4'] || 'Not answered'}
+
+Q4: What do you think about Sundar's Love??
+${responses['question5'] || 'Not answered'}
+
+Q5: Do you know what Sundar needs from you??
+${responses['question6'] || 'Not answered'}
+
+Q6: Do you Love(143) Sundar?
+${responses['question7'] || 'Not answered'}
+
+Submitted on: ${new Date().toLocaleString()}
+Status: All questions answered successfully!
+                `
+            };
+            
+            fetch(formspreeURL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(emailData)
+            })
+            .then(response => {
+                console.log('✅ Email sent to sundar@gmail.com!');
+            })
+            .catch(error => {
+                console.log('Email (or fallback) processed:', error);
+            });
+        }
+        
+        function resetQuiz() {
+            currentQuestion = 1;
+            document.querySelectorAll('input[type="radio"]').forEach(input => {
+                input.checked = false;
+            });
+            document.getElementById('finalScreen').style.display = 'none';
+            document.getElementById('musicScreen2').style.display = 'none';
+            document.getElementById('pictureSongScreen').style.display = 'none';
+            document.getElementById('answerScreen').style.display = 'none';
+            document.getElementById('noAnswerScreen').style.display = 'none';
+            document.getElementById('finalLoveScreen').style.display = 'none';
+            document.getElementById('quizForm').style.display = 'flex';
+            showQuestion(1);
+        }
+        
+        showQuestion(1);
+    </script>
+</body>
+</html>
